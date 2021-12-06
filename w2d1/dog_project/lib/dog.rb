@@ -1,3 +1,4 @@
+require "byebug"
 class Dog
 
     def initialize(name, breed, age, bark, favorite_foods)
@@ -17,6 +18,27 @@ class Dog
     end
     
     def age
-        @name
+        @age
+    end
+
+    def age=(number)
+        @age = number
+    end
+
+    def bark
+        if @age > 3
+            @bark.upcase
+        else
+            @bark.downcase
+        end
+    end
+
+    def favorite_foods
+        @favorite_foods
+    end
+
+    def favorite_food?(string)
+        @favorite_foods.map! {|food| food.downcase}
+        @favorite_foods.include?(string.downcase)
     end
 end
