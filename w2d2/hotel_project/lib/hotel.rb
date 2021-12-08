@@ -6,18 +6,21 @@ class Hotel
 
     def initialize(name, hash)
         @name = name
-        @rooms = Hash.new {|h, k| h[hash[k]] = Room.new }
+        @rooms = {}
+        hash.each do |room_name, capacity|
+            @rooms[room_name] = Room.new(capacity)
+        end
     end
 
     def name
-        @name = @name.capitalize
-        #words = @name.split
-        #words.each {|word| word.capitalize}
-        #up_name = words.join(" ")
+        @name = @name.split(" ").map do |word|
+            word.capitalize
+        end
+        @name.join(" ")
     end
 
     def room_exists?(room_name)
-        if hash.has_key?(room_name)
+        if @rooms.has_key?(room_name)
             return true
         else
             return false
@@ -25,13 +28,30 @@ class Hotel
     end
 
     def check_in(person, room_name)
+        if room_exists?(room_name)
+            if  @rooms[room_name].add_occupant(person) 
+                p "check in successful"
+            else
+                p "sorry, room is full"
+            end
+        else
+            p "sorry, room does not exist"
+         end
 
     end
 
     def has_vacancy?
+        @rooms.each do |k, v|
+            return true if v.available_space > 0
+        else
+            return false
+        end
     end
 
     def list_rooms
+        @rooms.each do |k, v|
+            puts "#{k} : #{v.available_space}"
+        end
     end
 
 end
