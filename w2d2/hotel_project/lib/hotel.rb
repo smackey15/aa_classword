@@ -13,10 +13,10 @@ class Hotel
     end
 
     def name
-        @name = @name.split(" ").map do |word|
+        mapped = @name.split(" ").map do |word|
             word.capitalize
         end
-        @name.join(" ")
+        mapped.join(" ")
     end
 
     def room_exists?(room_name)
@@ -42,10 +42,11 @@ class Hotel
 
     def has_vacancy?
         @rooms.each do |k, v|
-            return true if v.available_space > 0
-        else
-            return false
+            if v.available_space > 0
+                return true
+            end
         end
+        false
     end
 
     def list_rooms
